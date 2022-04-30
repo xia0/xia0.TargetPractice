@@ -1,0 +1,17 @@
+{
+	"Name" : "xia0.TargetPractice",
+	"Description" : "",
+	"Version": "1.0",
+	"LoadPriority": 1,
+	"ConVars": [
+	],
+	"Scripts": [
+		{
+			"Path": "target_practice.nut",
+			"RunOn": "SERVER && MP",
+			"ServerCallback": {
+				"After": "TargetPracticeInit"
+			}
+		}
+	]
+}
