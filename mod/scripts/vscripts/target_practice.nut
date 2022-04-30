@@ -8,6 +8,8 @@ void function TargetPracticeInit() {
 	AddCallback_OnNPCKilled( OnNPCKilled );
 }
 
+/*	Marvin will appear next to the first player to spawn
+*/
 void function OnPlayerRespawned( entity player ) {
 	//foreach ( entity weapon in player.GetMainWeapons() ) player.TakeWeaponNow( weapon.GetWeaponClassName() );
 	//foreach ( entity weapon in player.GetOffhandWeapons() ) player.TakeWeaponNow( weapon.GetWeaponClassName() );
@@ -53,7 +55,7 @@ void function OnDamaged( entity victim, var damageInfo ) {
 
 	// Move target in a random direction
 	int sign = RandomIntRange(0, 2);
-	if (sign == 0) sign = -1;
+	if (sign == 0) sign--;
 	target.SetVelocity(AnglesToRight( player.EyeAngles() ) * sign * RandomFloatRange(300,500) + <0, 0, RandomFloatRange(225,325) + DamageInfo_GetDamage(damageInfo) * 2>);
 	target.SetBossPlayer(player);
 
