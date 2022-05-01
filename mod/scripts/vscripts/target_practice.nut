@@ -4,6 +4,7 @@ entity target;
 int score = 0;
 
 void function TargetPracticeInit() {
+	PrecacheModel( $"models/creatures/prowler/r2_prowler.mdl" )
 	AddCallback_OnPlayerRespawned( OnPlayerRespawned );
 	AddCallback_OnNPCKilled( OnNPCKilled );
 }
@@ -29,6 +30,8 @@ void function OnPlayerRespawned( entity player ) {
 		if (IsValidPlayer(oldBoss)) target.SetBossPlayer(oldBoss);
 		else if (IsValidPlayer(player)) target.SetBossPlayer(player);
 
+		if (IsValidPlayer(target.GetBossPlayer())) NPCFollowsPlayer(target, target.GetBossPlayer());
+
 		target.SetMaxHealth( 99999 )
 		target.SetHealth( 99999 );
 		DispatchSpawn(target);
@@ -43,6 +46,8 @@ void function OnDamaged( entity victim, var damageInfo ) {
 	if (!IsValidPlayer(player)) return;
 	//EmitSoundOnEntity( victim, "Weapon_Vortex_Gun.ExplosiveWarningBeep" );
 
+
+
 	if (!victim.IsOnGround()) score++;
 	else score = 1;
 	SendHudMessageToAll("\n\n\n\n\n\n\n\n" + score.tostring(), 0.4985, 0.4751, 240, 182, 27, 255, 0, 5, 5)
@@ -56,10 +61,12 @@ void function OnDamaged( entity victim, var damageInfo ) {
 	// Move target in a random direction
 	int sign = RandomIntRange(0, 2);
 	if (sign == 0) sign--;
-	target.SetVelocity(AnglesToRight( player.EyeAngles() ) * sign * RandomFloatRange(300,500) + <0, 0, RandomFloatRange(225,325) + DamageInfo_GetDamage(damageInfo) * 2>);
-	target.SetBossPlayer(player);
+	victim.SetVelocity(AnglesToRight( player.EyeAngles() ) * sign * RandomFloatRange(300,500) + <0, 0, RandomFloatRange(225,325) + DamageInfo_GetDamage(damageInfo) * 2>);
+	victim.SetBossPlayer(player);
 
-	target.SetAngles(<0, RandomFloatRange(-360,360), 0>);
+	victim.SetAngles(<0, RandomFloatRange(-360,360), 0>);
+
+	NPCFollowsPlayer(victim, player);
 
 	/*
 	vector refAngles = GetRefAnglesBetweenEnts( victim, player )
