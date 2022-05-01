@@ -4,7 +4,7 @@ entity target;
 int score = 0;
 
 void function TargetPracticeInit() {
-	PrecacheModel( $"models/creatures/prowler/r2_prowler.mdl" )
+	//PrecacheModel( $"models/creatures/prowler/r2_prowler.mdl" )
 	AddCallback_OnPlayerRespawned( OnPlayerRespawned );
 	AddCallback_OnNPCKilled( OnNPCKilled );
 }
@@ -30,7 +30,7 @@ void function OnPlayerRespawned( entity player ) {
 		if (IsValidPlayer(oldBoss)) target.SetBossPlayer(oldBoss);
 		else if (IsValidPlayer(player)) target.SetBossPlayer(player);
 
-		if (IsValidPlayer(target.GetBossPlayer())) NPCFollowsPlayer(target, target.GetBossPlayer());
+		//if (IsValidPlayer(target.GetBossPlayer())) NPCFollowsPlayer(target, target.GetBossPlayer());
 
 		target.SetMaxHealth( 99999 )
 		target.SetHealth( 99999 );
@@ -39,13 +39,13 @@ void function OnPlayerRespawned( entity player ) {
 	}
 }
 
+
 void function OnDamaged( entity victim, var damageInfo ) {
 	if (victim != target) return;
 
 	entity player = DamageInfo_GetAttacker( damageInfo );
 	if (!IsValidPlayer(player)) return;
 	//EmitSoundOnEntity( victim, "Weapon_Vortex_Gun.ExplosiveWarningBeep" );
-
 
 
 	if (!victim.IsOnGround()) score++;
@@ -66,7 +66,7 @@ void function OnDamaged( entity victim, var damageInfo ) {
 
 	victim.SetAngles(<0, RandomFloatRange(-360,360), 0>);
 
-	NPCFollowsPlayer(victim, player);
+	//NPCFollowsPlayer(victim, player);
 
 	/*
 	vector refAngles = GetRefAnglesBetweenEnts( victim, player )
