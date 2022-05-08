@@ -58,6 +58,11 @@ void function OnDamaged( entity victim, var damageInfo ) {
 	victim.SetHealth(victim.GetMaxHealth());
 	//Chat_ServerBroadcast(DamageInfo_GetDamage(damageInfo).tostring());
 
+	// Limit how much damage can be done due to outrageous values in chamber and sns modes
+	if (DamageInfo_GetDamage(damageInfo) > 600) {
+		DamageInfo_SetDamage(damageInfo, 600);
+	}
+
 	// Move target in a random direction
 	int sign = RandomIntRange(0, 2);
 	if (sign == 0) sign--;
